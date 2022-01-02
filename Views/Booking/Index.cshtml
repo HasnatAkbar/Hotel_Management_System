@@ -1,0 +1,116 @@
+﻿@model HotelManagementSystem1.ViewModel.BookingViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-2.0.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            if (!$("#formCustomerBooking").valid()) {
+                return;
+            }
+            AddCustomerBooking();
+        });
+    });
+
+    function AddCustomerBooking() {
+        var objBookingViewModel = {};
+        objBookingViewModel.CustomerName = $("#txtCustomerName").val();
+        objBookingViewModel.CustomerAddress = $("#txtCustomerAddress").val();
+        objBookingViewModel.BookingFrom = $("#txtBookingFrom").val();
+        objBookingViewModel.BookingTo = $("#txtBookingTo").val();
+        objBookingViewModel.AssignRoomid = $("#txtAssignRoom").val();
+        objBookingViewModel.NumberOfMembers = $("#txtNumberOfMembers").val();
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            url: '/Booking/Index',
+            dat: JSON.stringify(objBookingViewModel),
+            success: function (data) {
+
+            },
+            error: function () {
+                alert("There is some problem to process your request.");
+            }
+        })
+    }
+</script>
+
+<div style="margin-top: 20px">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#divNewBooking" data-backdrop="static" data-keyboard="false">New Booking</button>
+</div>
+
+
+<div id="divNewBooking" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Booking</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formCustomerBooking">
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(expression: model => model.CustomerName, htmlAttributes: new { @class = "control-label" })
+                                @Html.TextBoxFor(expression: model => model.CustomerName, htmlAttributes: new { @class = "form-control", @id = "txtCustomerName" })
+                                @Html.ValidationMessageFor(expression: model => model.CustomerName, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(expression: model => model.CustomerAddress, htmlAttributes: new { @class = "control-label" })
+                                @Html.TextBoxFor(expression: model => model.CustomerAddress, htmlAttributes: new { @class = "form-control", @id = "txtCustomerAddress" })
+                                @Html.ValidationMessageFor(expression: model => model.CustomerAddress, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(expression: model => model.BookingFrom, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(expression: model => model.BookingFrom, additionalViewData: new { @class = "form-control", @id = "txtBookingFrom" })
+                                @Html.ValidationMessageFor(expression: model => model.BookingFrom, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-6">
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(expression: model => model.BookingTo, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(expression: model => model.BookingTo, additionalViewData: new { @class = "form-control", @id = "txtBookingTo" })
+                                @Html.ValidationMessageFor(expression: model => model.BookingTo, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(expression: model => model.AssignRoomid, htmlAttributes: new { @class = "control-label" })
+                                @Html.TextBoxFor(expression: model => model.AssignRoomid, htmlAttributes: new { @class = "form-control", @id = "txtAssignRoom" })
+                                @Html.ValidationMessageFor(expression: model => model.AssignRoomid, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(expression: model => model.NumberOfMembers, htmlAttributes: new { @class = "control-label" })
+                                @Html.TextBoxFor(expression: model => model.NumberOfMembers, htmlAttributes: new { @class = "form-control", @id = "txtNumberOfMembers" })
+                                @Html.ValidationMessageFor(expression: model => model.NumberOfMembers, validationMessage: null, htmlAttributes: new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSave" type="button" class="btn-success">Save</button> &nbsp;
+                <button type="button" data-dismiss="modal" class="btn-danger">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-top: 10px"></div>
